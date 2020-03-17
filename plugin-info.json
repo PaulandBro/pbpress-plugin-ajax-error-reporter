@@ -1,0 +1,8 @@
+{
+	"name" : "AJAX에러보고",
+	"desc" : "AJAX에러 발생 시, 개발사에게 에러메시지를 전송합니다.",
+	"version" : "1.0.0",
+	"author" : "Paul&Bro",
+	"author_email" : "help@pnbro.com",
+	"author_url" : "http://pnbro.com"
+}
