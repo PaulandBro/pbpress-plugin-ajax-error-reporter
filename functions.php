@@ -68,38 +68,51 @@ pb_hook_add_action('pb_ajax_error_occurred', function($severity_, $message_, $fi
 
 	if(!strlen($target_email_)) return;
 
+	ob_start();
+
+	var_dump(debug_backtrace());
+
+	$trace_str_ = ob_get_clean();
+
 
 ob_start();
 ?>
 <table border="1" style="width: 100%; table-layout: fixed;"><tbody>
 	<tr>
-		<th style="background-color: #efefef; width: 100px;">파일경로</th>
+		<th style="background-color: #ececec; width: 100px;color:black">사이트 주소</th>
+		<td><?=pb_home_url()?></td>
+	</tr>
+	<tr>
+		<th style="background-color: #ececec; width: 100px;color:black">파일경로</th>
 		<td><?=$filename_?></td>
 	</tr>
 	<tr>
-		<th>라인</th>
+		<th style="background-color: #ececec; width: 100px;color:black">라인</th>
 		<td><?=$lineno_?></td>
 	</tr>
 	<tr>
-		<th>에러메시지</th>
+		<th style="background-color: #ececec; width: 100px;color:black">에러메시지</th>
 		<td><?=$message_?></td>
 	</tr>
 	<tr>
-		<th>마지막쿼리</th>
+		<th style="background-color: #ececec; width: 100px;color:black">마지막쿼리</th>
 		<td>
-			<?=$pbdb->last_query()?>
+			<?=nl2br($pbdb->last_query())?>
 		</td>
 	</tr>
+	<tr>
+		<th style="background-color: #ececec; width: 100px;color:black">Trace</th>
+		<td>
+			<?=nl2br($trace_str_)?>
+		</td>
+	</tr>
+	debug_backtrace
 </tbody></table>
 
 <?php
 
-$mail_body_ = ob_get_clean();
-	
-
-	$result_ = pb_mail_send($target_email_, "[고객사 AJAX 에러] ".pb_option_value("sitename"), $mail_body_);
-
-	print_r($result_);
+	$mail_body_ = ob_get_clean();
+	$result_ = pb_mail_send($target_email_, "[고객사 AJAX 에러] ".pb_option_value("site_name"), $mail_body_);
 });
 
 pb_add_ajax('pb-ajax-er-test-report', function(){
